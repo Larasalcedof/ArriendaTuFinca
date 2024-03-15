@@ -2,7 +2,6 @@ package com.arrienda.proj.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.SQLDelete;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE calificacion SET  status = 1 WHERE id=?")
 
 public class Calificacion {
     @Id
@@ -29,7 +27,7 @@ public class Calificacion {
 
     private int valoracion;
     private String comentario;
-    private LocalDateTime fechaCalificacion;
+    private String fechaCalificacion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")

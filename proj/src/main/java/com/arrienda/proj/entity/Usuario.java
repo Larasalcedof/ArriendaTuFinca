@@ -1,6 +1,5 @@
 package com.arrienda.proj.entity;
 
-import org.hibernate.annotations.SQLDelete;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE usuario SET  status = 1 WHERE id=?")
 
 public class Usuario {
     @Id

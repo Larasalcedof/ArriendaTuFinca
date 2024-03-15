@@ -1,48 +1,47 @@
 package com.arrienda.proj.controllers;
 
-import java.util.List;
-
+import com.arrienda.proj.dto.PropiedadDTO;
+import com.arrienda.proj.services.PropiedadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import com.arrienda.proj.entity.Propiedad;
-import com.arrienda.proj.repositories.PropiedadRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/propiedades")
 @CrossOrigin
 public class PropiedadController {
 
+    private final PropiedadService propiedadService;
+
     @Autowired
-    private PropiedadRepository propiedadRepository;
+    public PropiedadController(PropiedadService propiedadService) {
+        this.propiedadService = propiedadService;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Propiedad> getAllPropiedades() {
-        return propiedadRepository.findAll();
+    public List<PropiedadDTO> getAllPropiedades() {
+        return propiedadService.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Propiedad getPropiedadById(@PathVariable Long id) {
-        return propiedadRepository.findById(id).orElse(null);
+    public PropiedadDTO getPropiedadById(@PathVariable Long id) {
+        return propiedadService.findById(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Propiedad createPropiedad(@RequestBody Propiedad propiedad) {
-        return propiedadRepository.save(propiedad);
+    public PropiedadDTO createPropiedad(@RequestBody PropiedadDTO propiedadDTO) {
+        return propiedadService.save(propiedadDTO);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Propiedad updatePropiedad(@PathVariable Long id, @RequestBody Propiedad updatedPropiedad) {
-        if (propiedadRepository.existsById(id)) {
-            updatedPropiedad.setId(id);
-            return propiedadRepository.save(updatedPropiedad);
-        }
-        return null; // or handle the case when the propiedad with the given id doesn't exist
+    public PropiedadDTO updatePropiedad(@PathVariable Long id, @RequestBody PropiedadDTO updatedPropiedadDTO) {
+        return propiedadService.update(id, updatedPropiedadDTO);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deletePropiedad(@PathVariable Long id) {
-        propiedadRepository.deleteById(id);
+        propiedadService.delete(id);
     }
 }

@@ -1,48 +1,67 @@
 package com.arrienda.proj.controllers;
 
-import java.util.List;
-
+import com.arrienda.proj.dto.UsuarioDTO;
+import com.arrienda.proj.entity.Usuario;
+import com.arrienda.proj.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.arrienda.proj.entity.Usuario;
-import com.arrienda.proj.repositories.UsuarioRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
 @CrossOrigin
 public class UsuarioController {
 
+    private final UsuarioService usuarioService;
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Usuario> getAllUsuarios() {
-        return usuarioRepository.findAll();
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
+        List<UsuarioDTO> usuarios = usuarioService.findAll();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        return usuarioRepository.findById(id).orElse(null);
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
+        UsuarioDTO usuario = usuarioService.findById(id);
+        if (usuario != null) {
+            return new ResponseEntity<>(usuario, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO createdUsuario = usuarioService.save(usuarioDTO);
+        return new ResponseEntity<>(createdUsuario, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Usuario updateUsuario(@PathVariable Long id, @RequestBody Usuario updatedUsuario) {
-        if (usuarioRepository.existsById(id)) {
-            updatedUsuario.setId(id);
-            return usuarioRepository.save(updatedUsuario);
+    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO updatedUsuarioDTO) {
+        UsuarioDTO updatedUsuario = usuarioService.update(id, updatedUsuarioDTO);
+        if (updatedUsuario != null) {
+            return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return null; // or handle the case when the user with the given id doesn't exist
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteUsuario(@PathVariable Long id) {
-        usuarioRepository.deleteById(id);
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+        boolean deleted = usuarioService.delete(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

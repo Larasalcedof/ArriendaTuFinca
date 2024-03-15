@@ -1,48 +1,47 @@
 package com.arrienda.proj.controllers;
 
-import java.util.List;
-
+import com.arrienda.proj.dto.CalificacionDTO;
+import com.arrienda.proj.services.CalificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import com.arrienda.proj.entity.Calificacion;
-import com.arrienda.proj.repositories.CalificacionRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/calificaciones")
 @CrossOrigin
 public class CalificacionController {
 
+    private final CalificacionService calificacionService;
+
     @Autowired
-    private CalificacionRepository calificacionRepository;
+    public CalificacionController(CalificacionService calificacionService) {
+        this.calificacionService = calificacionService;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Calificacion> getAllCalificaciones() {
-        return calificacionRepository.findAll();
+    public List<CalificacionDTO> getAllCalificaciones() {
+        return calificacionService.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Calificacion getCalificacionById(@PathVariable Long id) {
-        return calificacionRepository.findById(id).orElse(null);
+    public CalificacionDTO getCalificacionById(@PathVariable Long id) {
+        return calificacionService.findById(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Calificacion createCalificacion(@RequestBody Calificacion calificacion) {
-        return calificacionRepository.save(calificacion);
+    public CalificacionDTO createCalificacion(@RequestBody CalificacionDTO calificacionDTO) {
+        return calificacionService.save(calificacionDTO);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Calificacion updateCalificacion(@PathVariable Long id, @RequestBody Calificacion updatedCalificacion) {
-        if (calificacionRepository.existsById(id)) {
-            updatedCalificacion.setId(id);
-            return calificacionRepository.save(updatedCalificacion);
-        }
-        return null; // or handle the case when the calificacion with the given id doesn't exist
+    public CalificacionDTO updateCalificacion(@PathVariable Long id, @RequestBody CalificacionDTO updatedCalificacionDTO) {
+        return calificacionService.update(id, updatedCalificacionDTO);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteCalificacion(@PathVariable Long id) {
-        calificacionRepository.deleteById(id);
+        calificacionService.delete(id);
     }
 }

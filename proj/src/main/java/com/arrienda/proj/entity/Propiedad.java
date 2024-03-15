@@ -2,7 +2,6 @@ package com.arrienda.proj.entity;
 
 import java.math.BigDecimal;
 
-import org.hibernate.annotations.SQLDelete;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE propiedad SET  status = 1 WHERE id=?")
 public class Propiedad {
 
     @Id

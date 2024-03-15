@@ -2,7 +2,6 @@ package com.arrienda.proj.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.SQLDelete;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,14 +19,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE solicitud SET  status = 1 WHERE id=?")
 
 public class Solicitud {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime fechaSolicitud;
+    private String fechaSolicitud;
     private int estado;
 
     @ManyToOne
