@@ -1,7 +1,6 @@
 package com.arrienda.proj.controllers;
 
 import com.arrienda.proj.dto.UsuarioDTO;
-import com.arrienda.proj.entity.Usuario;
 import com.arrienda.proj.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

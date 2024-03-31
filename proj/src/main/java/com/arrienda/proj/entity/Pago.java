@@ -1,8 +1,6 @@
 package com.arrienda.proj.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

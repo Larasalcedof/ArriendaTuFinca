@@ -6,7 +6,6 @@ import com.arrienda.proj.repositories.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,7 +37,8 @@ public class UsuarioService {
     public UsuarioDTO save(UsuarioDTO usuarioDTO) {
         Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
         usuario = usuarioRepository.save(usuario);
-        return modelMapper.map(usuario, UsuarioDTO.class);
+        usuarioDTO.setId(usuario.getId());
+        return usuarioDTO;
     }
 
     public UsuarioDTO update(Long id, UsuarioDTO usuarioDTO) {
@@ -46,10 +46,9 @@ public class UsuarioService {
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
             usuario.setNombre(usuarioDTO.getNombre());
-            usuario.setCorreoElectronico(usuarioDTO.getCorreoElectronico());
             usuario.setRol(usuarioDTO.getRol());
-            usuario = usuarioRepository.save(usuario);
-            return modelMapper.map(usuario, UsuarioDTO.class);
+            usuarioRepository.save(usuario);
+            return usuarioDTO;
         } else {
             return null;
         }

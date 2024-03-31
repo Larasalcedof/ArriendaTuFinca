@@ -12,7 +12,7 @@ import lombok.Setter;
 public class UsuarioDTO {
     private Long id;
     private String nombre;
-    private String correoElectronico;
+    private CredencialesDTO credenciales;
     private int rol;
     
     // Puedes agregar métodos de transformación si es necesario
@@ -20,7 +20,7 @@ public class UsuarioDTO {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setId(usuario.getId());
         usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setCorreoElectronico(usuario.getCorreoElectronico());
+        usuarioDTO.setCredenciales(CredencialesDTO.fromEntity(usuario.getCredenciales()));
         usuarioDTO.setRol(usuario.getRol());
         return usuarioDTO;
     }
@@ -30,7 +30,7 @@ public class UsuarioDTO {
         com.arrienda.proj.entity.Usuario usuario = new com.arrienda.proj.entity.Usuario();
         usuario.setId(this.getId());
         usuario.setNombre(this.getNombre());
-        usuario.setCorreoElectronico(this.getCorreoElectronico());
+        usuario.setCredenciales(this.getCredenciales().toEntity());
         usuario.setRol(this.getRol());
         return usuario;
     }
