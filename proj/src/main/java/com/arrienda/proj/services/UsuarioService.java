@@ -1,7 +1,10 @@
 package com.arrienda.proj.services;
 
+import com.arrienda.proj.dto.CredencialesDTO;
 import com.arrienda.proj.dto.UsuarioDTO;
+import com.arrienda.proj.entity.Credenciales;
 import com.arrienda.proj.entity.Usuario;
+import com.arrienda.proj.repositories.CredencialesRepository;
 import com.arrienda.proj.repositories.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,13 @@ import java.util.stream.Collectors;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final CredencialesRepository credencialesRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper) {
+    public UsuarioService(UsuarioRepository usuarioRepository, CredencialesRepository credencialesRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
+        this.credencialesRepository = credencialesRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -36,9 +41,24 @@ public class UsuarioService {
 
     public UsuarioDTO save(UsuarioDTO usuarioDTO) {
         Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
+        
+        // Extraer las credenciales del DTO de usuario
+        CredencialesDTO credencialesDTO = usuarioDTO.getCredenciales();
+        
+        // Crear una instancia de Credenciales a partir del DTO recibido
+        Credenciales credenciales = modelMapper.map(credencialesDTO, Credenciales.class);
+
+        // Guardar las credenciales y obtener el objeto persistido
+        credenciales = credencialesRepository.save(credenciales);
+        
+        // Asignar las credenciales al usuario
+        usuario.setCredenciales(credenciales);
+        
+        // Guardar el usuario
         usuario = usuarioRepository.save(usuario);
-        usuarioDTO.setId(usuario.getId());
-        return usuarioDTO;
+        
+        // Mapear el usuario guardado de nuevo al DTO y retornarlo
+        return modelMapper.map(usuario, UsuarioDTO.class);
     }
 
     public UsuarioDTO update(Long id, UsuarioDTO usuarioDTO) {

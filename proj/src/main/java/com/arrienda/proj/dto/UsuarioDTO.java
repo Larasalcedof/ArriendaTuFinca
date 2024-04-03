@@ -14,6 +14,7 @@ public class UsuarioDTO {
     private String nombre;
     private CredencialesDTO credenciales;
     private int rol;
+    private int status;
     
     // Puedes agregar métodos de transformación si es necesario
     public static UsuarioDTO fromEntity(com.arrienda.proj.entity.Usuario usuario) {
