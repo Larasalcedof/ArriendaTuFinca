@@ -20,7 +20,7 @@ public class UsuarioService {
     private final CredencialesRepository credencialesRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
+    
     public UsuarioService(UsuarioRepository usuarioRepository, CredencialesRepository credencialesRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
         this.credencialesRepository = credencialesRepository;

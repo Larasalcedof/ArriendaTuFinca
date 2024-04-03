@@ -1,7 +1,6 @@
 package com.arrienda.proj;
 
 import com.arrienda.proj.dto.CalificacionDTO;
-import com.arrienda.proj.repositories.CalificacionRepository;
 import com.arrienda.proj.services.CalificacionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

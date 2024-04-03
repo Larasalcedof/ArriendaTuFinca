@@ -1,106 +1,115 @@
 package com.arrienda.proj;
 
-import com.arrienda.proj.controllers.UsuarioController;
+import com.arrienda.proj.dto.CredencialesDTO;
 import com.arrienda.proj.dto.UsuarioDTO;
 import com.arrienda.proj.services.UsuarioService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@SpringBootTest
 public class UsuarioTest {
 
-    @Mock
+    @Autowired
     private UsuarioService usuarioService;
 
-    @InjectMocks
-    private UsuarioController usuarioController;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void testGetAllUsuarios() {
-        List<UsuarioDTO> usuarios = new ArrayList<>();
-        // Simulamos que el servicio devuelve una lista de usuarios
-        when(usuarioService.findAll()).thenReturn(usuarios);
-    
-        // Llamamos al método del controlador que queremos probar
-        ResponseEntity<List<UsuarioDTO>> response = usuarioController.getAllUsuarios();
-    
-        // Verificamos que se haya devuelto un estado HTTP OK y que la lista de usuarios sea la esperada
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(usuarios, response.getBody());
-    
-        // Imprimimos información en pantalla para verificar
-        System.out.println("Usuarios recuperados: " + usuarios.size());
-    }
-    
-    @Test
-    public void testGetUsuarioById() {
-        Long id = 7L;
+    public void testSaveUsuario() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(id);
-        // Simulamos que el servicio devuelve un usuario con el ID especificado
-        when(usuarioService.findById(id)).thenReturn(usuarioDTO);
-    
-        // Llamamos al método del controlador que queremos probar
-        ResponseEntity<UsuarioDTO> response = usuarioController.getUsuarioById(id);
-    
-        // Verificamos que se haya devuelto un estado HTTP OK y que el usuario devuelto sea el esperado
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(usuarioDTO, response.getBody());
-    
-        // Imprimimos información en pantalla para verificar
-        System.out.println("Usuario recuperado: " + usuarioDTO);
+        usuarioDTO.setNombre("Nombre de usuario");
+        usuarioDTO.setRol(1);
+        
+        // Crea y configura las credenciales
+        CredencialesDTO credencialesDTO = new CredencialesDTO();
+        credencialesDTO.setCorreoElectronico("username");
+        credencialesDTO.setContrasena("password");
+        usuarioDTO.setCredenciales(credencialesDTO);
+
+        UsuarioDTO savedUsuarioDTO = usuarioService.save(usuarioDTO);
+
+        assertNotNull(savedUsuarioDTO.getId());
+        assertEquals(usuarioDTO.getNombre(), savedUsuarioDTO.getNombre());
+        assertEquals(usuarioDTO.getRol(), savedUsuarioDTO.getRol());
+        // Realiza más aserciones según sea necesario
     }
-    
 
     @Test
-    public void testCreateUsuario() {
+    public void testFindAllUsuarios() {
+        List<UsuarioDTO> usuariosDTOList = usuarioService.findAll();
+
+        // Asegúrate de que la lista no esté vacía
+        assertNotNull(usuariosDTOList);
+        // Realiza más aserciones según sea necesario
+    }
+
+    @Test
+    public void testFindByIdUsuario() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        when(usuarioService.save(usuarioDTO)).thenReturn(usuarioDTO);
+        usuarioDTO.setNombre("Nombre de usuario");
+        usuarioDTO.setRol(1);
+        
+        // Crea y configura las credenciales
+        CredencialesDTO credencialesDTO = new CredencialesDTO();
+        credencialesDTO.setCorreoElectronico("username");
+        credencialesDTO.setContrasena("password");
+        usuarioDTO.setCredenciales(credencialesDTO);
 
-        ResponseEntity<UsuarioDTO> response = usuarioController.createUsuario(usuarioDTO);
+        UsuarioDTO savedUsuarioDTO = usuarioService.save(usuarioDTO);
+        Long id = savedUsuarioDTO.getId();
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(usuarioDTO, response.getBody());
+        UsuarioDTO foundUsuarioDTO = usuarioService.findById(id);
+
+        assertNotNull(foundUsuarioDTO);
+        assertEquals(usuarioDTO.getNombre(), foundUsuarioDTO.getNombre());
+        assertEquals(usuarioDTO.getRol(), foundUsuarioDTO.getRol());
+        // Realiza más aserciones según sea necesario
     }
 
     @Test
     public void testUpdateUsuario() {
-        Long id = 1L;
-        UsuarioDTO updatedUsuarioDTO = new UsuarioDTO();
-        updatedUsuarioDTO.setId(id);
-        when(usuarioService.update(id, updatedUsuarioDTO)).thenReturn(updatedUsuarioDTO);
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNombre("Nombre de usuario");
+        usuarioDTO.setRol(1);
+        
+        // Crea y configura las credenciales
+        CredencialesDTO credencialesDTO = new CredencialesDTO();
+        credencialesDTO.setCorreoElectronico("username");
+        credencialesDTO.setContrasena("password");
+        usuarioDTO.setCredenciales(credencialesDTO);
 
-        ResponseEntity<UsuarioDTO> response = usuarioController.updateUsuario(id, updatedUsuarioDTO);
+        UsuarioDTO savedUsuarioDTO = usuarioService.save(usuarioDTO);
+        Long id = savedUsuarioDTO.getId();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(updatedUsuarioDTO, response.getBody());
+        usuarioDTO.setNombre("Nuevo nombre de usuario");
+        UsuarioDTO updatedUsuarioDTO = usuarioService.update(id, usuarioDTO);
+
+        assertNotNull(updatedUsuarioDTO);
+        assertEquals("Nuevo nombre de usuario", updatedUsuarioDTO.getNombre());
+        // Realiza más aserciones según sea necesario
     }
 
     @Test
     public void testDeleteUsuario() {
-        Long id = 1L;
-        when(usuarioService.delete(id)).thenReturn(true);
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNombre("Nombre de usuario");
+        usuarioDTO.setRol(1);
+        
+        // Crea y configura las credenciales
+        CredencialesDTO credencialesDTO = new CredencialesDTO();
+        credencialesDTO.setCorreoElectronico("username");
+        credencialesDTO.setContrasena("password");
+        usuarioDTO.setCredenciales(credencialesDTO);
 
-        ResponseEntity<Void> response = usuarioController.deleteUsuario(id);
+        UsuarioDTO savedUsuarioDTO = usuarioService.save(usuarioDTO);
+        Long id = savedUsuarioDTO.getId();
 
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        assertTrue(response.getBody() == null);
+        boolean isDeleted = usuarioService.delete(id);
+
+        assertEquals(true, isDeleted);
     }
-
 }

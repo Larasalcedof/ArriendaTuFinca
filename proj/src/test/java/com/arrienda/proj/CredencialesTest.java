@@ -1,7 +1,6 @@
 package com.arrienda.proj;
 
 import com.arrienda.proj.dto.CredencialesDTO;
-import com.arrienda.proj.repositories.CredencialesRepository;
 import com.arrienda.proj.services.CredencialesService;
 
 import org.junit.jupiter.api.Test;
