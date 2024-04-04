@@ -4,7 +4,6 @@ import com.arrienda.proj.dto.CredencialesDTO;
 import com.arrienda.proj.entity.Credenciales;
 import com.arrienda.proj.repositories.CredencialesRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class CredencialesService {
     private final CredencialesRepository credencialesRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public CredencialesService(CredencialesRepository credencialesRepository, ModelMapper modelMapper) {
         this.credencialesRepository = credencialesRepository;
         this.modelMapper = modelMapper;

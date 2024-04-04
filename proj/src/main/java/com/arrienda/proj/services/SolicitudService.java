@@ -4,7 +4,6 @@ import com.arrienda.proj.dto.SolicitudDTO;
 import com.arrienda.proj.entity.Solicitud;
 import com.arrienda.proj.repositories.SolicitudRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class SolicitudService {
     private final SolicitudRepository solicitudRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public SolicitudService(SolicitudRepository solicitudRepository, ModelMapper modelMapper) {
         this.solicitudRepository = solicitudRepository;
         this.modelMapper = modelMapper;

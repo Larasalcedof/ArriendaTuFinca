@@ -4,7 +4,6 @@ import com.arrienda.proj.dto.PagoDTO;
 import com.arrienda.proj.entity.Pago;
 import com.arrienda.proj.repositories.PagoRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class PagoService {
     private final PagoRepository pagoRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public PagoService(PagoRepository pagoRepository, ModelMapper modelMapper) {
         this.pagoRepository = pagoRepository;
         this.modelMapper = modelMapper;

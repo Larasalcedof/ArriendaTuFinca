@@ -7,7 +7,6 @@ import com.arrienda.proj.entity.Usuario;
 import com.arrienda.proj.repositories.CredencialesRepository;
 import com.arrienda.proj.repositories.UsuarioRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,6 @@ public class UsuarioService {
     private final CredencialesRepository credencialesRepository;
     private final ModelMapper modelMapper;
 
-    
     public UsuarioService(UsuarioRepository usuarioRepository, CredencialesRepository credencialesRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
         this.credencialesRepository = credencialesRepository;

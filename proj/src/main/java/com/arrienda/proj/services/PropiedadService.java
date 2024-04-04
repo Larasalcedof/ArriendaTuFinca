@@ -4,7 +4,6 @@ import com.arrienda.proj.dto.PropiedadDTO;
 import com.arrienda.proj.entity.Propiedad;
 import com.arrienda.proj.repositories.PropiedadRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class PropiedadService {
     private final PropiedadRepository propiedadRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public PropiedadService(PropiedadRepository propiedadRepository, ModelMapper modelMapper) {
         this.propiedadRepository = propiedadRepository;
         this.modelMapper = modelMapper;

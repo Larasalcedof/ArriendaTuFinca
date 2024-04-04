@@ -4,7 +4,6 @@ import com.arrienda.proj.dto.CalificacionDTO;
 import com.arrienda.proj.entity.Calificacion;
 import com.arrienda.proj.repositories.CalificacionRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class CalificacionService {
     private final CalificacionRepository calificacionRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public CalificacionService(CalificacionRepository calificacionRepository, ModelMapper modelMapper) {
         this.calificacionRepository = calificacionRepository;
         this.modelMapper = modelMapper;
