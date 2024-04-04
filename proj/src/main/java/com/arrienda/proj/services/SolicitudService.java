@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SolicitudService {
@@ -30,7 +29,7 @@ public class SolicitudService {
         List<Solicitud> solicitudes = (List<Solicitud>) solicitudRepository.findAll();
         return solicitudes.stream()
                 .map(solicitud -> modelMapper.map(solicitud, SolicitudDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public SolicitudDTO save(SolicitudDTO solicitudDTO) {

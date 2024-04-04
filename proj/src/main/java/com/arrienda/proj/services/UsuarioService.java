@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -34,7 +33,7 @@ public class UsuarioService {
         List<Usuario> usuarios = (List<Usuario>) usuarioRepository.findAll();
         return usuarios.stream()
                 .map(usuario -> modelMapper.map(usuario, UsuarioDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public UsuarioDTO save(UsuarioDTO usuarioDTO) {

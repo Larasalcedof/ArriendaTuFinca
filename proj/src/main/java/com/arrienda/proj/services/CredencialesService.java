@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CredencialesService {
@@ -31,7 +30,7 @@ public class CredencialesService {
         List<Credenciales> credencialesList = (List<Credenciales>) credencialesRepository.findAll();
         return credencialesList.stream()
                 .map(credenciales -> modelMapper.map(credenciales, CredencialesDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CredencialesDTO findById(Long id) {

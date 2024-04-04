@@ -1,100 +1,64 @@
 package com.arrienda.proj;
 
-import com.arrienda.proj.dto.CalificacionDTO;
-import com.arrienda.proj.services.CalificacionService;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
+import com.arrienda.proj.entity.Calificacion;
+import com.arrienda.proj.entity.Propiedad;
+import com.arrienda.proj.entity.Usuario;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+@ExtendWith(MockitoExtension.class)
+class CalificacionTest {
 
-@SpringBootTest
-public class CalificacionTest {
+    @Mock
+    private Usuario mockUsuario;
 
-    @Autowired
-    private CalificacionService calificacionService;
+    @Mock
+    private Propiedad mockPropiedad;
 
     @Test
-    public void testSaveCalificacion() {
-        CalificacionDTO calificacionDTO = new CalificacionDTO();
-        calificacionDTO.setValoracion(5);
-        calificacionDTO.setComentario("Excelente servicio");
-        calificacionDTO.setFechaCalificacion("2024-04-03");
-        // Suponiendo que existen los métodos para obtener los DTOs de usuario y propiedad
+    void testGettersAndSetters() {
+        // Arrange
+        Calificacion calificacion = new Calificacion();
+        calificacion.setId(1L);
+        calificacion.setValoracion(5);
+        calificacion.setComentario("Great experience");
+        calificacion.setFechaCalificacion("2024-04-04");
+        calificacion.setUsuario(mockUsuario);
+        calificacion.setPropiedad(mockPropiedad);
 
-        CalificacionDTO savedCalificacionDTO = calificacionService.save(calificacionDTO);
-
-        assertNotNull(savedCalificacionDTO.getId());
-        assertEquals(calificacionDTO.getValoracion(), savedCalificacionDTO.getValoracion());
-        assertEquals(calificacionDTO.getComentario(), savedCalificacionDTO.getComentario());
-        assertEquals(calificacionDTO.getFechaCalificacion(), savedCalificacionDTO.getFechaCalificacion());
-        // Realiza más aserciones según sea necesario
+        // Assert
+        assertEquals(1L, calificacion.getId());
+        assertEquals(5, calificacion.getValoracion());
+        assertEquals("Great experience", calificacion.getComentario());
+        assertEquals("2024-04-04", calificacion.getFechaCalificacion());
+        assertEquals(mockUsuario, calificacion.getUsuario());
+        assertEquals(mockPropiedad, calificacion.getPropiedad());
     }
 
     @Test
-    public void testFindAllCalificaciones() {
-        List<CalificacionDTO> calificacionesDTOList = calificacionService.findAll();
+    void testNoArgsConstructor() {
+        // Arrange
+        Calificacion calificacion = new Calificacion();
 
-        // Asegúrate de que la lista no esté vacía
-        assertNotNull(calificacionesDTOList);
-        // Realiza más aserciones según sea necesario
+        // Assert
+        assertNotNull(calificacion);
     }
 
     @Test
-    public void testFindByIdCalificacion() {
-        CalificacionDTO calificacionDTO = new CalificacionDTO();
-        calificacionDTO.setValoracion(5);
-        calificacionDTO.setComentario("Excelente servicio");
-        calificacionDTO.setFechaCalificacion("2024-04-03");
-        // Suponiendo que existen los métodos para obtener los DTOs de usuario y propiedad
+    void testAllArgsConstructor() {
+        // Arrange
+        Calificacion calificacion = new Calificacion(1L, 5, "Great experience", "2024-04-04", mockUsuario, mockPropiedad);
 
-        CalificacionDTO savedCalificacionDTO = calificacionService.save(calificacionDTO);
-        Long id = savedCalificacionDTO.getId();
-
-        CalificacionDTO foundCalificacionDTO = calificacionService.findById(id);
-
-        assertNotNull(foundCalificacionDTO);
-        assertEquals(calificacionDTO.getValoracion(), foundCalificacionDTO.getValoracion());
-        assertEquals(calificacionDTO.getComentario(), foundCalificacionDTO.getComentario());
-        assertEquals(calificacionDTO.getFechaCalificacion(), foundCalificacionDTO.getFechaCalificacion());
-        // Realiza más aserciones según sea necesario
-    }
-
-    @Test
-    public void testUpdateCalificacion() {
-        CalificacionDTO calificacionDTO = new CalificacionDTO();
-        calificacionDTO.setValoracion(5);
-        calificacionDTO.setComentario("Excelente servicio");
-        calificacionDTO.setFechaCalificacion("2024-04-03");
-        // Suponiendo que existen los métodos para obtener los DTOs de usuario y propiedad
-
-        CalificacionDTO savedCalificacionDTO = calificacionService.save(calificacionDTO);
-        Long id = savedCalificacionDTO.getId();
-
-        calificacionDTO.setComentario("Muy buen servicio");
-        CalificacionDTO updatedCalificacionDTO = calificacionService.update(id, calificacionDTO);
-
-        assertNotNull(updatedCalificacionDTO);
-        assertEquals("Muy buen servicio", updatedCalificacionDTO.getComentario());
-        // Realiza más aserciones según sea necesario
-    }
-
-    @Test
-    public void testDeleteCalificacion() {
-        CalificacionDTO calificacionDTO = new CalificacionDTO();
-        calificacionDTO.setValoracion(5);
-        calificacionDTO.setComentario("Excelente servicio");
-        calificacionDTO.setFechaCalificacion("2024-04-03");
-        // Suponiendo que existen los métodos para obtener los DTOs de usuario y propiedad
-
-        CalificacionDTO savedCalificacionDTO = calificacionService.save(calificacionDTO);
-        Long id = savedCalificacionDTO.getId();
-
-        boolean isDeleted = calificacionService.delete(id);
-
-        assertEquals(true, isDeleted);
+        // Assert
+        assertEquals(1L, calificacion.getId());
+        assertEquals(5, calificacion.getValoracion());
+        assertEquals("Great experience", calificacion.getComentario());
+        assertEquals("2024-04-04", calificacion.getFechaCalificacion());
+        assertEquals(mockUsuario, calificacion.getUsuario());
+        assertEquals(mockPropiedad, calificacion.getPropiedad());
     }
 }

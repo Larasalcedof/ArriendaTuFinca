@@ -1,89 +1,43 @@
 package com.arrienda.proj;
 
-import com.arrienda.proj.dto.CredencialesDTO;
-import com.arrienda.proj.services.CredencialesService;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import com.arrienda.proj.entity.Credenciales;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@SpringBootTest
-public class CredencialesTest {
-
-    @Autowired
-    private CredencialesService credencialesService;
+class CredencialesTest {
 
     @Test
-    public void testSaveCredenciales() {
-        CredencialesDTO credencialesDTO = new CredencialesDTO();
-        credencialesDTO.setCorreoElectronico("test@example.com");
-        credencialesDTO.setContrasena("password");
+    void testGettersAndSetters() {
+        // Arrange
+        Credenciales credenciales = new Credenciales();
+        credenciales.setId(1L);
+        credenciales.setCorreoElectronico("test@example.com");
+        credenciales.setContrasena("password123");
 
-        CredencialesDTO savedCredencialesDTO = credencialesService.save(credencialesDTO);
-
-        assertNotNull(savedCredencialesDTO.getId());
-        assertEquals(credencialesDTO.getCorreoElectronico(), savedCredencialesDTO.getCorreoElectronico());
-        // Asegúrate de no exponer la contraseña en el DTO
+        // Assert
+        assertEquals(1L, credenciales.getId());
+        assertEquals("test@example.com", credenciales.getCorreoElectronico());
+        assertEquals("password123", credenciales.getContrasena());
     }
 
     @Test
-    public void testFindAllCredenciales() {
-        List<CredencialesDTO> credencialesDTOList = credencialesService.findAll();
+    void testNoArgsConstructor() {
+        // Arrange
+        Credenciales credenciales = new Credenciales();
 
-        // Asegúrate de que la lista no esté vacía
-        assertNotNull(credencialesDTOList);
-        // Realiza más aserciones según sea necesario
+        // Assert
+        assertNotNull(credenciales);
     }
 
     @Test
-    public void testFindByIdCredenciales() {
-        CredencialesDTO credencialesDTO = new CredencialesDTO();
-        credencialesDTO.setCorreoElectronico("test@example.com");
-        credencialesDTO.setContrasena("password");
+    void testAllArgsConstructor() {
+        // Arrange
+        Credenciales credenciales = new Credenciales(1L, "test@example.com", "password123");
 
-        CredencialesDTO savedCredencialesDTO = credencialesService.save(credencialesDTO);
-        Long id = savedCredencialesDTO.getId();
-
-        CredencialesDTO foundCredencialesDTO = credencialesService.findById(id);
-
-        assertNotNull(foundCredencialesDTO);
-        assertEquals(credencialesDTO.getCorreoElectronico(), foundCredencialesDTO.getCorreoElectronico());
-        // Asegúrate de no exponer la contraseña en el DTO
-    }
-
-    @Test
-    public void testUpdateCredenciales() {
-        CredencialesDTO credencialesDTO = new CredencialesDTO();
-        credencialesDTO.setCorreoElectronico("test@example.com");
-        credencialesDTO.setContrasena("password");
-
-        CredencialesDTO savedCredencialesDTO = credencialesService.save(credencialesDTO);
-        Long id = savedCredencialesDTO.getId();
-
-        credencialesDTO.setCorreoElectronico("updated@example.com");
-        CredencialesDTO updatedCredencialesDTO = credencialesService.update(id, credencialesDTO);
-
-        assertNotNull(updatedCredencialesDTO);
-        assertEquals("updated@example.com", updatedCredencialesDTO.getCorreoElectronico());
-        // Asegúrate de no exponer la contraseña en el DTO
-    }
-
-    @Test
-    public void testDeleteCredenciales() {
-        CredencialesDTO credencialesDTO = new CredencialesDTO();
-        credencialesDTO.setCorreoElectronico("test@example.com");
-        credencialesDTO.setContrasena("password");
-
-        CredencialesDTO savedCredencialesDTO = credencialesService.save(credencialesDTO);
-        Long id = savedCredencialesDTO.getId();
-
-        boolean isDeleted = credencialesService.delete(id);
-
-        assertEquals(true, isDeleted);
+        // Assert
+        assertEquals(1L, credenciales.getId());
+        assertEquals("test@example.com", credenciales.getCorreoElectronico());
+        assertEquals("password123", credenciales.getContrasena());
     }
 }

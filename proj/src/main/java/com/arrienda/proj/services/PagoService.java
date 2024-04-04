@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 public class PagoService {
@@ -30,7 +30,7 @@ public class PagoService {
         List<Pago> pagos = (List<Pago>) pagoRepository.findAll();
         return pagos.stream()
                 .map(pago -> modelMapper.map(pago, PagoDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public PagoDTO save(PagoDTO pagoDTO) {

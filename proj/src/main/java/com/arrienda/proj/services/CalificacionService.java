@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CalificacionService {
@@ -30,7 +29,7 @@ public class CalificacionService {
         List<Calificacion> calificaciones = (List<Calificacion>) calificacionRepository.findAll();
         return calificaciones.stream()
                 .map(calificacion -> modelMapper.map(calificacion, CalificacionDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CalificacionDTO save(CalificacionDTO calificacionDTO) {

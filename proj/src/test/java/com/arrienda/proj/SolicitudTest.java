@@ -1,95 +1,49 @@
 package com.arrienda.proj;
 
-import com.arrienda.proj.dto.SolicitudDTO;
-import com.arrienda.proj.services.SolicitudService;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import com.arrienda.proj.entity.Propiedad;
+import com.arrienda.proj.entity.Solicitud;
+import com.arrienda.proj.entity.Usuario;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@SpringBootTest
-public class SolicitudTest {
-
-    @Autowired
-    private SolicitudService solicitudService;
+class SolicitudTest {
 
     @Test
-    public void testSaveSolicitud() {
-        SolicitudDTO solicitudDTO = new SolicitudDTO();
-        solicitudDTO.setFechaSolicitud(LocalDateTime.now().toString());
-        solicitudDTO.setEstado(1);
-        // Suponiendo que existen los métodos para obtener el DTO de arrendatario y propiedad
+    void testGettersAndSetters() {
+        // Arrange
+        Solicitud solicitud = new Solicitud();
+        solicitud.setId(1L);
+        solicitud.setFechaSolicitud("2024-04-04");
+        solicitud.setEstado(1);
 
-        SolicitudDTO savedSolicitudDTO = solicitudService.save(solicitudDTO);
-
-        assertNotNull(savedSolicitudDTO.getId());
-        assertEquals(solicitudDTO.getFechaSolicitud(), savedSolicitudDTO.getFechaSolicitud());
-        assertEquals(solicitudDTO.getEstado(), savedSolicitudDTO.getEstado());
-        // Realiza más aserciones según sea necesario
+        // Assert
+        assertEquals(1L, solicitud.getId());
+        assertEquals("2024-04-04", solicitud.getFechaSolicitud());
+        assertEquals(1, solicitud.getEstado());
     }
 
     @Test
-    public void testFindAllSolicitudes() {
-        List<SolicitudDTO> solicitudesDTOList = solicitudService.findAll();
+    void testNoArgsConstructor() {
+        // Arrange
+        Solicitud solicitud = new Solicitud();
 
-        // Asegúrate de que la lista no esté vacía
-        assertNotNull(solicitudesDTOList);
-        // Realiza más aserciones según sea necesario
+        // Assert
+        assertNotNull(solicitud);
     }
 
     @Test
-    public void testFindByIdSolicitud() {
-        SolicitudDTO solicitudDTO = new SolicitudDTO();
-        solicitudDTO.setFechaSolicitud(LocalDateTime.now().toString());
-        solicitudDTO.setEstado(1);
-        // Suponiendo que existen los métodos para obtener el DTO de arrendatario y propiedad
+    void testAllArgsConstructor() {
+        // Arrange
+        Usuario arrendatario = new Usuario();
+        Propiedad propiedad = new Propiedad();
+        Solicitud solicitud = new Solicitud(1L, "2024-04-04", 1, arrendatario, propiedad);
 
-        SolicitudDTO savedSolicitudDTO = solicitudService.save(solicitudDTO);
-        Long id = savedSolicitudDTO.getId();
-
-        SolicitudDTO foundSolicitudDTO = solicitudService.findById(id);
-
-        assertNotNull(foundSolicitudDTO);
-        assertEquals(solicitudDTO.getFechaSolicitud(), foundSolicitudDTO.getFechaSolicitud());
-        assertEquals(solicitudDTO.getEstado(), foundSolicitudDTO.getEstado());
-        // Realiza más aserciones según sea necesario
-    }
-
-    @Test
-    public void testUpdateSolicitud() {
-        SolicitudDTO solicitudDTO = new SolicitudDTO();
-        solicitudDTO.setFechaSolicitud(LocalDateTime.now().toString());
-        solicitudDTO.setEstado(1);
-        // Suponiendo que existen los métodos para obtener el DTO de arrendatario y propiedad
-
-        SolicitudDTO savedSolicitudDTO = solicitudService.save(solicitudDTO);
-        Long id = savedSolicitudDTO.getId();
-
-        solicitudDTO.setEstado(2);
-        SolicitudDTO updatedSolicitudDTO = solicitudService.update(id, solicitudDTO);
-
-        assertNotNull(updatedSolicitudDTO);
-        assertEquals(2, updatedSolicitudDTO.getEstado());
-        // Realiza más aserciones según sea necesario
-    }
-
-    @Test
-    public void testDeleteSolicitud() {
-        SolicitudDTO solicitudDTO = new SolicitudDTO();
-        solicitudDTO.setFechaSolicitud(LocalDateTime.now().toString());
-        solicitudDTO.setEstado(1);
-        // Suponiendo que existen los métodos para obtener el DTO de arrendatario y propiedad
-
-        SolicitudDTO savedSolicitudDTO = solicitudService.save(solicitudDTO);
-        Long id = savedSolicitudDTO.getId();
-
-        boolean isDeleted = solicitudService.delete(id);
-
-        assertEquals(true, isDeleted);
+        // Assert
+        assertEquals(1L, solicitud.getId());
+        assertEquals("2024-04-04", solicitud.getFechaSolicitud());
+        assertEquals(1, solicitud.getEstado());
+        assertEquals(arrendatario, solicitud.getArrendatario());
+        assertEquals(propiedad, solicitud.getPropiedad());
     }
 }

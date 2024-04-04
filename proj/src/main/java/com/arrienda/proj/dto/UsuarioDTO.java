@@ -27,12 +27,19 @@ public class UsuarioDTO {
     }
     
     // Método para convertir un UsuarioDTO a un Usuario (opcional)
-    public com.arrienda.proj.entity.Usuario toEntity() {
-        com.arrienda.proj.entity.Usuario usuario = new com.arrienda.proj.entity.Usuario();
-        usuario.setId(this.getId());
-        usuario.setNombre(this.getNombre());
+    // Método para convertir un UsuarioDTO a un Usuario (opcional)
+public com.arrienda.proj.entity.Usuario toEntity() {
+    com.arrienda.proj.entity.Usuario usuario = new com.arrienda.proj.entity.Usuario();
+    usuario.setId(this.getId());
+    usuario.setNombre(this.getNombre());
+    usuario.setRol(this.getRol());
+    
+    // Verifica si las credenciales no son nulas antes de convertirlas
+    if (this.getCredenciales() != null) {
         usuario.setCredenciales(this.getCredenciales().toEntity());
-        usuario.setRol(this.getRol());
-        return usuario;
     }
+    
+    return usuario;
+}
+
 }
